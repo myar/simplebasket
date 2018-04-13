@@ -1,5 +1,4 @@
-
-# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.db import models
 
@@ -15,6 +14,7 @@ class Basket(models.Model):
 
 class ItemsBasket(models.Model):
 
-    basket = models.ForeignKey(Basket, on_delete=models.CASCADE)
+    basket = models.ForeignKey(Basket, related_name='basket_items',
+                               on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     weight = models.FloatField()

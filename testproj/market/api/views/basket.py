@@ -13,7 +13,7 @@ class BasketList(View):
 
     def get(self, *args, **kwargs):
 
-        baskets = Basket.objects.all()
+        baskets = Basket.objects.select_related()
 
         return self.render_to_response(list(map(basket.serialize, baskets)))
 
