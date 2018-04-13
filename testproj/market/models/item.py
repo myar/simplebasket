@@ -16,3 +16,6 @@ class Item(models.Model):
 
     type_product = models.IntegerField(choices=TYPE_CHOICES)
     weight = models.FloatField()
+
+    def get_type_product(self, obj):
+        return obj.get_type_product_display()
