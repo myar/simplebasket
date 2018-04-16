@@ -5,11 +5,19 @@ from django.db import models
 from .item import Item
 
 
+class LiveManager(models.Manager):
+
+    def get_queryset(self):
+        return super(LiveManager, self).get_queryset().filter(delete=False)
+
+
 class Basket(models.Model):
 
     name = models.CharField(max_length=250)
     capacity = models.FloatField()
     delete = models.BooleanField(default=False)
+
+    objects = LiveManager()
 
 
 class ItemsBasket(models.Model):

@@ -57,6 +57,13 @@ class BasketDetail(DetailView):
             return self.render_to_response(basket.serialize(item))
         raise ValidationError
 
+    def delete(self, request, *args, **kwargs):
+
+        item = get_object_or_404(Basket, id=kwargs.get('pk', None))
+        item.delete = True
+        item.save()
+        return redirect('basket_list')
+
     def render_to_response(self, result, response_class=HttpResponse):
         return response_class(json.dumps(result),
                               content_type='application/json')

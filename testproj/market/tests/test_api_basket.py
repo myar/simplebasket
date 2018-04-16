@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from django.urls import reverse
 
-from market.api.forms import BasketForm
 from market.models import Basket
 
 
@@ -15,20 +14,20 @@ class RegistrationTest(TestCase):
         self.data = {'name': 'Test name for basket',
                      'capacity': 5}
         self.url = reverse('basket_add')
-        self.form = BasketForm
+        self.client.post(self.url, self.data, follow=True)
 
     def test_create_basket(self):
+
         basket_all = Basket.objects.all()
-        self.assertEqual(basket_all.count(), 0)
+        self.assertEqual(basket_all.count(), 1)
 
         response = self.client.post(self.url, self.data, follow=True)
         self.assertEqual(response.status_code, 200)
 
         basket_all = Basket.objects.all()
-        self.assertEqual(basket_all.count(), 1)
+        self.assertEqual(basket_all.count(), 2)
 
     def test_get_detail(self):
-        self.client.post(self.url, self.data, follow=True)
 
         basket = list(Basket.objects.all())[-1]
         url = reverse('basket_detail', kwargs={'pk': basket.id})
@@ -45,3 +44,14 @@ class RegistrationTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, self.data['name'])
         basket = self.assertEqual(list(Basket.objects.all())[-1].name, name)
+
+    def test_delete_basket(self):
+        basket = list(Basket.objects.all())[-1]
+        url = reverse('basket_detail', kwargs={'pk': basket.id})
+        name = u'New 888888888888'
+        self.data.update({'pk': basket.id, 'name': name})
+        self.client.post(url, self.data, follow=True)
+
+        response = self.client.delete(url, follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, name)
