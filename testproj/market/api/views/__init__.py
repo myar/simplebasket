@@ -1,1 +1,1 @@
-from .basket import BasketList, BasketAdd
+from .basket import BasketList, BasketAdd, BasketDetail
