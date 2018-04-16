@@ -6,4 +6,7 @@ from market.models import Basket
 
 
 class BasketForm(forms.ModelForm):
-    model = Basket
+
+    class Meta:
+        model = Basket
+        fields = "__all__"
