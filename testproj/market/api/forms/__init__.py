@@ -1,1 +1,1 @@
-from .basket import BasketForm
+from .basket import BasketForm, ItemsBasketForm

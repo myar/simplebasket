@@ -19,6 +19,12 @@ class Basket(models.Model):
 
     objects = LiveManager()
 
+    def get_weight(self):
+        total = 0
+        for i in self.basket_items.all():
+            total += i.weight
+        return total
+
 
 class ItemsBasket(models.Model):
 
